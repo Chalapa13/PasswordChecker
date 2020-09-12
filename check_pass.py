@@ -51,5 +51,4 @@ def pwned_api_check(password):
 
 if __name__ == '__main__':
     for arg in sys.argv[1:]:
-        print(arg)
         pwned_api_check(str(arg))
