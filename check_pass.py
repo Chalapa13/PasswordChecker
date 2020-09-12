@@ -4,6 +4,13 @@ import sys
 
 
 def request_api_data(partial_hash):
+    """
+    Given the first 5 symbols of a hex digest from a password, tries to fetch all
+    hashes that start with said symbols.
+
+    :param partial_hash:
+    :return:
+    """
     url = 'https://api.pwnedpasswords.com/range/' + str(partial_hash)
     response = requests.request(method='get', url=url)
 
@@ -15,13 +22,13 @@ def request_api_data(partial_hash):
 
 
 def get_leak_count(response, remainder):
-    '''
+    """
 
     :param response: Got from the API call
     :param remainder: What was left after spliting the hash, compare this to the hashes
     received in order to olny retrieve the one corresponding to our checked pass
     :return: The amount of times the checked pass has been leaked
-    '''
+    """
 
     content = str(response.text)
 
@@ -37,6 +44,12 @@ def get_leak_count(response, remainder):
 
 
 def pwned_api_check(password):
+    """
+    Displays how many time a password has been leaked.
+
+    :param password:
+    :return: None
+    """
     sha1pass = hashlib.sha1(password.encode('utf-8')).hexdigest()
     partial_hash, remainder = sha1pass[:5], sha1pass[5:]
     response = request_api_data(partial_hash=partial_hash)
